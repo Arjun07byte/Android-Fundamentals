@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/ubuntu_light"
+            android:text="@string/broadcast_receiver_heading_text"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button_stopReceivers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_text"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_chargingReceiver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/ubuntu_light"
+            android:text="@string/charging_text"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/imgView_charging"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:alpha="0.1"
+            android:contentDescription="@string/charging_text"
+            android:src="@drawable/charging" />
+
+        <ImageView
+            android:id="@+id/imgView_chargingDisconnected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/charging_text"
+            android:src="@drawable/charging_disconnected" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_airplaneModeReceiver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/ubuntu_light"
+            android:text="@string/airplane_mode_text"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/imgView_airplaneOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:alpha="0.1"
+            android:contentDescription="@string/airplane_mode_text"
+            android:src="@drawable/airplane_on" />
+
+        <ImageView
+            android:id="@+id/imgView_airplaneOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/airplane_mode_text"
+            android:src="@drawable/airplane_off" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_headsetReceiver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/ubuntu_light"
+            android:text="@string/headset_text"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/imgView_headset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:alpha="0.1"
+            android:contentDescription="@string/headset_text"
+            android:src="@drawable/headset" />
+
+        <ImageView
+            android:id="@+id/imgView_headsetOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/headset_text"
+            android:src="@drawable/headset_disconnected" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_timeReceiver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/ubuntu_light"
+            android:text="@string/time_text"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/time"
+            android:contentDescription="@string/time_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ubuntu_light"
+            android:text="@string/hh_mm_text"
+            android:alpha="0.5"/>
+    </LinearLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/background_receivers_are_stopped_text"
+        android:textSize="16sp"
+        android:fontFamily="@font/ubuntu_light"/>
+
+</LinearLayout>

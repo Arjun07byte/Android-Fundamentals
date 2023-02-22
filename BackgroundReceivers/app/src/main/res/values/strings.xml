@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Background Receivers</string>
+    <string name="broadcast_receiver_heading_text">Broadcast Receiver</string>
+    <string name="stop_text">Stop</string>
+    <string name="charging_text">Charging</string>
+    <string name="airplane_mode_text">Airplane Mode</string>
+    <string name="headset_text">Headset</string>
+    <string name="time_text">Time</string>
+    <string name="hh_mm_text">%1s : %2s</string>
+    <string name="background_receivers_are_stopped_text">Background Receivers are Stopped</string>
+</resources>
