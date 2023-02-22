@@ -6,6 +6,6 @@
     <string name="airplane_mode_text">Airplane Mode</string>
     <string name="headset_text">Headset</string>
     <string name="time_text">Time</string>
-    <string name="hh_mm_text">%1s : %2s</string>
+    <string name="hh_mm_text">HH : MM</string>
     <string name="background_receivers_are_stopped_text">Background Receivers are Stopped</string>
 </resources>
