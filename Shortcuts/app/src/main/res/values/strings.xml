@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Shortcuts</string>
+    <string name="add_shortcut_text">ADD SHORTCUT</string>
+    <string name="want_a_new_shortcut_for_this_activity_text">Want a new shortcut for this activity</string>
+    <string name="remove_shortcut_text">REMOVE SHORTCUT</string>
+    <string name="want_to_remove_shortcut_for_this_activity_text">Want to remove shortcut for this activity</string>
+    <string name="another_activity_name">Another Activity</string>
+    <string name="main_activity_name">Main Activity</string>
+</resources>

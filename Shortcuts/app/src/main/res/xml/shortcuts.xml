@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="mainShortcut"
+        android:enabled="true"
+        android:icon="@drawable/ic_main"
+        android:shortcutShortLabel="@string/app_name"
+        android:shortcutLongLabel="@string/app_name"
+        android:shortcutDisabledMessage="@string/app_name">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.appify.shortcuts"
+            android:targetClass="com.appify.shortcuts.MainActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="anotherShortcut"
+        android:enabled="true"
+        android:icon="@drawable/ic_another"
+        android:shortcutShortLabel="@string/app_name"
+        android:shortcutLongLabel="@string/app_name"
+        android:shortcutDisabledMessage="@string/app_name">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.appify.shortcuts"
+            android:targetClass="com.appify.shortcuts.AnotherActivity" />
+    </shortcut>
+</shortcuts>
