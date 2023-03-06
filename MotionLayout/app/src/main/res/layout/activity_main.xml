@@ -1,54 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layoutDescription="@xml/activity_main_scene"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/img_topLeft"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager_mainActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/layout_mainMotionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="-5dp"
+        app:layoutDescription="@xml/main_motion_layout_scene">
+
+        <ImageView
+            android:id="@+id/img_cloud1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="84dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/moving_clouds_text"
+            android:src="@drawable/cloud_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_cloud2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="-16dp"
+            android:contentDescription="@string/moving_clouds_text"
+            android:src="@drawable/cloud_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_cloud3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-24dp"
+            android:layout_marginTop="6dp"
+            android:contentDescription="@string/moving_clouds_text"
+            android:src="@drawable/cloud_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_cloud2" />
+
+        <ImageView
+            android:id="@+id/img_triangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="-64dp"
+            android:src="@drawable/img_triangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_cloud3" />
+
+        <ImageView
+            android:id="@+id/img_donutRectangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-96dp"
+            android:layout_marginTop="-24dp"
+            android:src="@drawable/img_donut"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_centerBgArt" />
+
+        <ImageView
+            android:id="@+id/img_centerBgArt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:src="@drawable/img_bg_art"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/img_triangle" />
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+    <ImageButton
+        android:id="@+id/button_nextPage"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignStart="@id/main_progressInidicator"
+        android:layout_alignEnd="@id/main_progressInidicator"
+        android:layout_alignTop="@id/main_progressInidicator"
+        android:layout_alignBottom="@id/main_progressInidicator"
+        android:layout_margin="12dp"
+        android:background="@drawable/bg_next_button"
+        android:src="@drawable/ic_next" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/main_progressInidicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ellipse_1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_centerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="Here is the Motion Layout"
-        android:textSize="20sp"
-        android:textColor="@color/black"/>
-
-    <ImageView
-        android:id="@+id/img_topRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ellipse_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/img_bottomLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/vector_1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/img_bottomRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/polygon_1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.motion.widget.MotionLayout>
+        app:indicatorSize="56dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:progress="33"/>
+</RelativeLayout>

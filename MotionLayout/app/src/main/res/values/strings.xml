@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MotionLayout</string>
+    <string name="next_button_text">next button</string>
+    <string name="moving_clouds_text">Moving Clouds</string>
 </resources>
