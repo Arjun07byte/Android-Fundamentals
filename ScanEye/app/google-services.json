@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "893217363215",
+    "project_id": "scaneye-77cd0",
+    "storage_bucket": "scaneye-77cd0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893217363215:android:2fce3e157ea0963c6a1a7a",
+        "android_client_info": {
+          "package_name": "com.appify.scaneye"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893217363215-vm5u0gqbaf5vq2lsec76sb7ts60npdto.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyuR-qwOSHNUGlg4ZDI71r-mwhRmGJgFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893217363215-vm5u0gqbaf5vq2lsec76sb7ts60npdto.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

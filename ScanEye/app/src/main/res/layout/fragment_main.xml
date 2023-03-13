@@ -8,26 +8,26 @@
     <androidx.camera.view.PreviewView
         android:id="@+id/layout_cameraPreview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <ImageButton
         android:id="@+id/button_shutterButton"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:background="@drawable/bg_shutter_button"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="64dp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="64dp"
+        android:background="@drawable/bg_shutter_button" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_history"
-        android:background="@drawable/bg_history_button"
-        android:padding="6dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="20dp"/>
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_history_button"
+        android:padding="6dp"
+        android:src="@drawable/ic_history" />
 
 </RelativeLayout>
