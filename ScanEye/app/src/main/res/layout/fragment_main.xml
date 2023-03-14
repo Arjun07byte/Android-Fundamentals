@@ -17,9 +17,12 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="64dp"
-        android:background="@drawable/bg_shutter_button" />
+        android:background="@drawable/bg_shutter_button"
+        android:contentDescription="@string/shutter_button_cd"
+        tools:ignore="RedundantDescriptionCheck" />
 
     <ImageButton
+        android:id="@+id/button_historyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -27,7 +30,9 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/bg_history_button"
+        android:contentDescription="@string/history_button_cd"
         android:padding="6dp"
-        android:src="@drawable/ic_history" />
+        android:src="@drawable/ic_history"
+        tools:ignore="RedundantDescriptionCheck,TouchTargetSizeCheck" />
 
 </RelativeLayout>

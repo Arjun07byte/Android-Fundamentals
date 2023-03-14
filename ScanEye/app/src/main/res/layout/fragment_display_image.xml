@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.DisplayImageFragment">
+
+    <ImageView
+        android:id="@+id/imageDisplayView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/captured_image_view_cd"
+        android:scaleType="centerCrop"
+        tools:ignore="ImageContrastCheck" />
+
+    <ImageButton
+        android:id="@+id/button_navigateToHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_history_button"
+        android:contentDescription="@string/history_button_cd"
+        android:padding="6dp"
+        android:src="@drawable/ic_history"
+        tools:ignore="ImageContrastCheck,RedundantDescriptionCheck,TouchTargetSizeCheck" />
+
+</FrameLayout>

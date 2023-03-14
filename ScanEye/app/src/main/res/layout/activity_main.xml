@@ -10,7 +10,7 @@
         android:id="@+id/layout_mainFragContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.appify.scaneye.fragments.MainFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         tools:layout="@layout/fragment_main"
         app:defaultNavHost="true"
         app:navGraph="@navigation/main_nav_graph"/>

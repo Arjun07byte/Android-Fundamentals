@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mainFragment_to_historyFragment"
             app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_displayImageFragment"
+            app:destination="@id/displayImageFragment" />
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
@@ -22,5 +25,14 @@
         <action
             android:id="@+id/action_historyFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/displayImageFragment"
+        android:name="com.appify.scaneye.fragments.DisplayImageFragment"
+        android:label="fragment_display_image"
+        tools:layout="@layout/fragment_display_image" >
+        <action
+            android:id="@+id/action_displayImageFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
 </navigation>

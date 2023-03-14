@@ -1,5 +1,6 @@
 package com.appify.scaneye
 
+import android.graphics.Bitmap
 import android.media.Image
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,9 @@ import com.google.mlkit.vision.common.InputImage
 class MainViewModel : ViewModel() {
     private val myScannerOptions = BarcodeScannerOptions.Builder()
         .setBarcodeFormats(Barcode.FORMAT_QR_CODE, Barcode.FORMAT_AZTEC).build()
+
+    var capturedImageBitmap: Bitmap? = null
+    var rotationDegree: Int = 0
 
     // Function used to send the image captured at the moment
     // to the Firebase ML Kit and receive the responses from there

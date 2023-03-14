@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">ScanEye</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="older_text">Older</string>
+    <string name="yesterday_text">Yesterday</string>
+    <string name="today_text">Today</string>
+    <string name="empty_history_text">ScanEye hasn\'t\ncaptured anything</string>
+    <string name="history_heading">History</string>
+    <string name="back_button_cd">Back Button</string>
+    <string name="visited_at_text">Visited at: %1s</string>
+    <string name="qr_share_cd">QR Share</string>
+    <string name="captured_image_view_cd">Captured Image View</string>
+    <string name="history_button_cd">History Button</string>
+    <string name="shutter_button_cd">Shutter Button</string>
+
 </resources>

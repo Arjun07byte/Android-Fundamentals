@@ -3,6 +3,7 @@ package com.appify.scaneye.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Size
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.appify.scaneye.MainViewModel
 import com.appify.scaneye.R
 import java.util.concurrent.Executors.newSingleThreadExecutor
@@ -43,6 +45,9 @@ class MainFragment : Fragment() {
             ContextCompat.getColor(requireContext(), R.color.transparent)
         if (currentWindow != null) {
             WindowCompat.setDecorFitsSystemWindows(currentWindow, false)
+            WindowCompat.getInsetsController(currentWindow, currentWindow.decorView).apply {
+                isAppearanceLightStatusBars = false
+            }
         }
     }
 
@@ -61,6 +66,9 @@ class MainFragment : Fragment() {
         } else {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
+
+        view.findViewById<ImageButton>(R.id.button_historyButton)
+            .setOnClickListener { findNavController().navigate(R.id.action_mainFragment_to_historyFragment) }
     }
 
     // Listening the camera provider to bind the preview with the camera
@@ -95,8 +103,9 @@ class MainFragment : Fragment() {
 
         val myImageAnalysisBuilder = ImageAnalysis.Builder().setTargetResolution(Size(1280, 720))
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build()
+        val cameraExecutor = newSingleThreadExecutor()
 
-        myImageAnalysisBuilder.setAnalyzer(newSingleThreadExecutor()) { imageProxy ->
+        myImageAnalysisBuilder.setAnalyzer(cameraExecutor) { imageProxy ->
             val rotationDegrees = imageProxy.imageInfo.rotationDegrees
             val currentImage = imageProxy.image
 
@@ -112,14 +121,19 @@ class MainFragment : Fragment() {
 
         shutterButton.setOnClickListener {
             imageCapture.takePicture(
-                ContextCompat.getMainExecutor(requireContext()),
+                cameraExecutor,
                 object : ImageCapture.OnImageCapturedCallback() {
                     override fun onCaptureSuccess(imageProxy: ImageProxy) {
                         super.onCaptureSuccess(imageProxy)
-                        /*
-                        * Send the image captured to a new fragment where we will only display the
-                        * image captured and will do the Firebase ML Kit analysis there only
-                        * */
+                        val imageBuffer = imageProxy.planes[0].buffer
+                        val imageBytes = ByteArray(imageBuffer.capacity()); imageBuffer[imageBytes]
+
+                        val imageBitmap =
+                            BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                        val rotationDegree = imageProxy.imageInfo.rotationDegrees
+                        myMainViewModel.capturedImageBitmap =
+                            imageBitmap; myMainViewModel.rotationDegree = rotationDegree
+                        navigateToDisplayImage()
                         imageProxy.close()
                     }
                 })
@@ -139,6 +153,11 @@ class MainFragment : Fragment() {
             myImageAnalysisBuilder,
             myCameraPreviewBuilder
         )
+    }
+
+    private fun navigateToDisplayImage() {
+        ContextCompat.getMainExecutor(requireContext())
+            .execute { findNavController().navigate(R.id.action_mainFragment_to_displayImageFragment) }
     }
 
     // Checking whether the user has granted the camera access
