@@ -1,6 +1,6 @@
 # 📷📷 Scan Eye 📷📷
 
-A snapchat UI clone android application which is a QR/Barcode Scanner
+A Google Lens clone android application, a QR/Barcode Scanner with snapchat UI.
 - Great UI and UX for the user to get seamless and amazing experience
 - User will have a history of all the previous scanned/captured QRs.
 - One click, easy to share previous captured details.
