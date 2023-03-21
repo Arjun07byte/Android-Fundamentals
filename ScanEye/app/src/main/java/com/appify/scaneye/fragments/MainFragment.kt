@@ -2,15 +2,20 @@ package com.appify.scaneye.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ImageButton
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -22,16 +27,21 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.appify.scaneye.MainViewModel
 import com.appify.scaneye.R
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors.newSingleThreadExecutor
 
 
 class MainFragment : Fragment() {
     private val myMainViewModel: MainViewModel by activityViewModels()
+    private lateinit var cameraExecutorThread: ExecutorService
+    private lateinit var cameraProvider: ProcessCameraProvider
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        setUpStatusBar(); return inflater.inflate(R.layout.fragment_main, container, false)
+        setUpStatusBar()
+        return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     // Setting up the transparent status bar to match up the application
@@ -64,9 +74,14 @@ class MainFragment : Fragment() {
             // setting up the camera view for the user
             setUpMyCameraView()
         } else {
+            // Requesting permission from the user
+            // if the user has not granted the permission before
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
 
+        setUpBottomSheet()
+
+        // setting up the history fragment button
         view.findViewById<ImageButton>(R.id.button_historyButton)
             .setOnClickListener { findNavController().navigate(R.id.action_mainFragment_to_historyFragment) }
     }
@@ -77,14 +92,23 @@ class MainFragment : Fragment() {
         val cameraPreviewView: PreviewView = requireView().findViewById(R.id.layout_cameraPreview)
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         val shutterButton: ImageButton = requireView().findViewById(R.id.button_shutterButton)
+        cameraProvider = cameraProviderFuture.get()
 
         cameraProviderFuture.addListener({
             bindPreviewView(
-                cameraProviderFuture.get(),
+                cameraProvider,
                 cameraPreviewView,
                 shutterButton
             )
         }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    // Checking whether the user has granted the camera access
+    // to the application or not
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) setUpMyCameraView()
     }
 
     // Binding the Preview View with the camera
@@ -103,45 +127,19 @@ class MainFragment : Fragment() {
 
         val myImageAnalysisBuilder = ImageAnalysis.Builder().setTargetResolution(Size(1280, 720))
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build()
-        val cameraExecutor = newSingleThreadExecutor()
+        cameraExecutorThread = newSingleThreadExecutor()
 
-        myImageAnalysisBuilder.setAnalyzer(cameraExecutor) { imageProxy ->
+        // Setting up the image analyzer for the camera
+
+        myImageAnalysisBuilder.setAnalyzer(cameraExecutorThread) { imageProxy ->
             val rotationDegrees = imageProxy.imageInfo.rotationDegrees
             val currentImage = imageProxy.image
 
             if (currentImage != null) myMainViewModel.sendImageToMLKit(
-                currentImage,
-                rotationDegrees
+                currentImage, rotationDegrees
             )
             imageProxy.close()
         }
-
-        val imageCapture =
-            ImageCapture.Builder().setTargetRotation(requireView().display.rotation).build()
-
-        shutterButton.setOnClickListener {
-            imageCapture.takePicture(
-                cameraExecutor,
-                object : ImageCapture.OnImageCapturedCallback() {
-                    override fun onCaptureSuccess(imageProxy: ImageProxy) {
-                        super.onCaptureSuccess(imageProxy)
-                        val imageBuffer = imageProxy.planes[0].buffer
-                        val imageBytes = ByteArray(imageBuffer.capacity()); imageBuffer[imageBytes]
-
-                        val imageBitmap =
-                            BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                        val rotationDegree = imageProxy.imageInfo.rotationDegrees
-                        myMainViewModel.capturedImageBitmap =
-                            imageBitmap; myMainViewModel.rotationDegree = rotationDegree
-                        navigateToDisplayImage()
-                        imageProxy.close()
-                    }
-                })
-        }
-
-        // making sure that there are no previous bindings to
-        // the camera provider
-        cameraProvider.unbindAll()
 
         // Binding the camera view with the user camera and
         // all the features and use cases of the CameraX we
@@ -149,22 +147,105 @@ class MainFragment : Fragment() {
         cameraProvider.bindToLifecycle(
             this.viewLifecycleOwner,
             myCameraSelector,
-            imageCapture,
             myImageAnalysisBuilder,
             myCameraPreviewBuilder
         )
+
+        // Setting up the shutter button to capture images
+        // and navigate to another fragment
+        shutterButton.setOnClickListener { navigateToDisplayImage() }
     }
 
     private fun navigateToDisplayImage() {
-        ContextCompat.getMainExecutor(requireContext())
-            .execute { findNavController().navigate(R.id.action_mainFragment_to_displayImageFragment) }
+        findNavController().navigate(R.id.action_mainFragment_to_displayImageFragment)
     }
 
-    // Checking whether the user has granted the camera access
-    // to the application or not
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) setUpMyCameraView()
+    private fun setUpBottomSheet() {
+        val bottomSheetDialog = BottomSheetDialog(this.requireContext())
+        val parentViewGroup = view?.parent as ViewGroup
+        val bottomSheetLayout = layoutInflater.inflate(
+            R.layout.layout_bottom_sheet,
+            parentViewGroup,
+            false
+        )
+        bottomSheetDialog.setContentView(bottomSheetLayout)
+        bottomSheetDialog.setCanceledOnTouchOutside(false)
+
+        val myClipboard =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+        val bottomSheetTitle: TextView = bottomSheetLayout.findViewById(R.id.tv_scanResultTitle)
+        val bottomSheetSubtitle: TextView =
+            bottomSheetLayout.findViewById(R.id.tv_scanResultSubtitle)
+        val bottomSheetButton1: Button = bottomSheetLayout.findViewById(R.id.button_scanResultbt1)
+        val bottomSheetButton2: Button = bottomSheetLayout.findViewById(R.id.button_scanResultbt2)
+        val bottomSheetButton3: Button = bottomSheetLayout.findViewById(R.id.button_scanResultbt3)
+        val bottomSheetIcon: ImageView = bottomSheetLayout.findViewById(R.id.imgView_scanResultIcon)
+
+        myMainViewModel.liveDataAnalyzerScanResult.observe(viewLifecycleOwner) { scannedItem ->
+            if(scannedItem != null) {
+                bottomSheetTitle.text = scannedItem.historyItemTitle; bottomSheetSubtitle.text =
+                    scannedItem.historyItemDesc
+
+                // Sharing the scanned item description as a URI to let user choose
+                // the application to share
+                bottomSheetButton3.setOnClickListener {
+                    val myIntent = Intent(Intent.ACTION_SEND); myIntent.type = "text/plain"
+                    myIntent.putExtra(Intent.EXTRA_SUBJECT, "Scan")
+                    myIntent.putExtra(Intent.EXTRA_TEXT, scannedItem.historyItemDesc)
+
+                    startActivity(Intent.createChooser(myIntent, "Choose to share"))
+                }
+
+                if (scannedItem.historyItemType != "Web") {
+                    bottomSheetButton2.visibility = View.GONE; bottomSheetButton1.text =
+                        "Copy Password"
+                    bottomSheetIcon.setImageResource(R.drawable.ic_wifi)
+
+                    // Copying the password of the Wifi / scanned Text  to the clipBoard
+                    bottomSheetButton1.setOnClickListener {
+                        myClipboard.setPrimaryClip(
+                            ClipData.newPlainText(
+                                "Text",
+                                scannedItem.historyItemDesc
+                            )
+                        )
+                        Toast.makeText(requireContext(), "Copied", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    bottomSheetButton2.visibility = View.VISIBLE; bottomSheetButton1.text = "Visit"
+                    bottomSheetButton2.text = "Copy"
+                    bottomSheetIcon.setImageResource(R.drawable.ic_website)
+
+                    // Opening the scanned URL in the web browser
+                    bottomSheetButton1.setOnClickListener {
+                        requireContext().startActivity(
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse(scannedItem.historyItemDesc)
+                            )
+                        )
+                    }
+
+                    // Copying the scanned URL to the clipBoard
+                    bottomSheetButton2.setOnClickListener {
+                        myClipboard.setPrimaryClip(
+                            ClipData.newPlainText(
+                                "Url",
+                                scannedItem.historyItemDesc
+                            )
+                        )
+                        Toast.makeText(requireContext(), "Copied", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                bottomSheetDialog.show()
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        myMainViewModel.liveDataAnalyzerScanResult.postValue(null)
     }
 }

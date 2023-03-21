@@ -1,20 +1,22 @@
 package com.appify.scaneye
 
-import android.graphics.Bitmap
 import android.media.Image
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.appify.scaneye.dataModels.ScanHistoryItem
+import com.appify.scaneye.localDatabase.ScanHistoryDatabase
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
+import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
     private val myScannerOptions = BarcodeScannerOptions.Builder()
         .setBarcodeFormats(Barcode.FORMAT_QR_CODE, Barcode.FORMAT_AZTEC).build()
-
-    var capturedImageBitmap: Bitmap? = null
-    var rotationDegree: Int = 0
+    var databaseInstance: ScanHistoryDatabase? = null
+    val liveDataAnalyzerScanResult = MutableLiveData<ScanHistoryItem?>()
 
     // Function used to send the image captured at the moment
     // to the Firebase ML Kit and receive the responses from there
@@ -28,21 +30,30 @@ class MainViewModel : ViewModel() {
             for (eachBarCode in barcodes) {
                 when (eachBarCode.valueType) {
                     Barcode.TYPE_WIFI -> {
-                        val ssid = eachBarCode.wifi!!.ssid
-                        val password = eachBarCode.wifi!!.password
-                        val type = eachBarCode.wifi!!.encryptionType
+                        val ssid = eachBarCode.wifi!!.ssid.toString()
+                        val password = eachBarCode.wifi!!.password.toString()
+
+                        liveDataAnalyzerScanResult.postValue(ScanHistoryItem("", ssid, password, "Wifi"))
                     }
                     Barcode.TYPE_URL -> {
-                        val urlTitle = eachBarCode.url!!.title
-                        val url = eachBarCode.url!!.url
+                        val urlTitle = eachBarCode.url!!.title.toString()
+                        val url = eachBarCode.url!!.url.toString()
+
+                        liveDataAnalyzerScanResult.postValue(ScanHistoryItem("", urlTitle, url, "Web"))
                     }
                     Barcode.TYPE_TEXT -> {
-
+                        liveDataAnalyzerScanResult.postValue(ScanHistoryItem("", "", "", ""))
                     }
                 }
             }
-        }.addOnFailureListener {
-            Log.e("INSIDE_FAILURE_SCAN", "SCANS FAILED, ${it.localizedMessage}")
         }
     }
+
+    fun insertNewScanToDB(givenScan: ScanHistoryItem) {
+        viewModelScope.launch {
+            databaseInstance?.getScanHistoryDAO()?.insertNewScan(givenScan)
+        }
+    }
+
+    fun getScanHistory() = databaseInstance?.getScanHistoryDAO()?.getAllScanHistory()
 }

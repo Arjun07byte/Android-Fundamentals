@@ -11,5 +11,9 @@
     <string name="captured_image_view_cd">Captured Image View</string>
     <string name="history_button_cd">History Button</string>
     <string name="shutter_button_cd">Shutter Button</string>
+    <string name="visit_text">Visit</string>
+    <string name="copy_text">Copy</string>
+    <string name="share_text">Share</string>
+    <string name="scan_result_icon_cd">Scan Result Icon</string>
 
 </resources>
