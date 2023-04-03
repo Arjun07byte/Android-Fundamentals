@@ -5,6 +5,7 @@ import android.media.Image
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.appify.scaneye.dataModels.DateTimeHelper
 import com.appify.scaneye.dataModels.MLKitResponses
 import com.appify.scaneye.dataModels.ScanHistoryItem
 import com.appify.scaneye.localDatabase.ScanHistoryDatabase
@@ -17,72 +18,24 @@ import kotlinx.coroutines.launch
 class MainViewModel : ViewModel() {
     private val myScannerOptions = BarcodeScannerOptions.Builder()
         .setBarcodeFormats(Barcode.FORMAT_QR_CODE, Barcode.FORMAT_AZTEC).build()
+    private val myScanner = BarcodeScanning.getClient(myScannerOptions)
     var databaseInstance: ScanHistoryDatabase? = null
     var lastCapturedImageBitmap: Bitmap? = null
-    val liveDataAnalyzerScanResult = MutableLiveData<ScanHistoryItem?>()
+    val liveDataAnalyzerScanResult = MutableLiveData<MLKitResponses>()
     val liveDataImageCaptureResult = MutableLiveData<MLKitResponses>()
 
     // Function used to send the image captured at the moment
     // to the Firebase ML Kit and receive the responses from there
     fun sendLastCapturedImageToMLKit() {
+        // Posting the Live Data indicating the user that
+        // the processing of the image has been started
+        // and creating the image to send to the firebase ML Kit
         liveDataImageCaptureResult.postValue(MLKitResponses.LoadingResponse())
         val imageToSend = lastCapturedImageBitmap?.let { InputImage.fromBitmap(it, 0) }
-        val myScanner = BarcodeScanning.getClient(myScannerOptions)
+
+        // sending the image to my scanner to process the image
         if (imageToSend != null) {
-            myScanner.process(imageToSend).addOnSuccessListener { barcodes ->
-                for (eachBarCode in barcodes) {
-                    when (eachBarCode.valueType) {
-                        Barcode.TYPE_WIFI -> {
-                            val ssid = eachBarCode.wifi!!.ssid.toString()
-                            val password = eachBarCode.wifi!!.password.toString()
-
-                            liveDataImageCaptureResult.postValue(
-                                MLKitResponses.SuccessResponse(
-                                    ScanHistoryItem(
-                                        "",
-                                        ssid,
-                                        password,
-                                        "Wifi"
-                                    )
-                                )
-                            )
-                        }
-                        Barcode.TYPE_URL -> {
-                            val urlTitle = eachBarCode.url!!.title.toString()
-                            val url = eachBarCode.url!!.url.toString()
-
-                            liveDataImageCaptureResult.postValue(
-                                MLKitResponses.SuccessResponse(
-                                    ScanHistoryItem(
-                                        "",
-                                        urlTitle,
-                                        url,
-                                        "Web"
-                                    )
-                                )
-                            )
-                        }
-                        Barcode.TYPE_TEXT -> {
-                            liveDataImageCaptureResult.postValue(
-                                MLKitResponses.SuccessResponse(
-                                    ScanHistoryItem(
-                                        "",
-                                        "",
-                                        "",
-                                        "Text"
-                                    )
-                                )
-                            )
-                        }
-                    }
-                }
-            }.addOnFailureListener {
-                liveDataImageCaptureResult.postValue(
-                    MLKitResponses.ErrorResponse(
-                        it.localizedMessage ?: "Some Error Occurred"
-                    )
-                )
-            }
+            processImageWithScanner(false, imageToSend)
         }
     }
 
@@ -92,46 +45,60 @@ class MainViewModel : ViewModel() {
         currentImage: Image,
         rotationDegrees: Int
     ) {
+        // Creating the Image to send to the Firebase ML Kit
         val imageToSend = InputImage.fromMediaImage(currentImage, rotationDegrees)
-        val myScanner = BarcodeScanning.getClient(myScannerOptions)
-        myScanner.process(imageToSend).addOnSuccessListener { barcodes ->
+        // sending the image to my scanner to process the image
+        processImageWithScanner(true, imageToSend)
+    }
+
+    private fun processImageWithScanner(isFromAnalyzer: Boolean, givenImage: InputImage) {
+        val processImageTask = myScanner.process(givenImage)
+        processImageTask.addOnSuccessListener { barcodes ->
             for (eachBarCode in barcodes) {
                 when (eachBarCode.valueType) {
                     Barcode.TYPE_WIFI -> {
                         val ssid = eachBarCode.wifi!!.ssid.toString()
                         val password = eachBarCode.wifi!!.password.toString()
+                        // creating a new scanItem to post in the LiveData
+                        val newScanItem = ScanHistoryItem(DateTimeHelper.getCurrentDate(), ssid, password, "Wifi",0)
+                        if(!isFromAnalyzer) liveDataImageCaptureResult.postValue(MLKitResponses.SuccessResponse(newScanItem))
+                        else liveDataAnalyzerScanResult.postValue(MLKitResponses.SuccessResponse(newScanItem))
 
-                        liveDataAnalyzerScanResult.postValue(
-                            ScanHistoryItem(
-                                "",
-                                ssid,
-                                password,
-                                "Wifi"
-                            )
-                        )
+                        insertNewScanToDB(newScanItem)
                     }
                     Barcode.TYPE_URL -> {
                         val urlTitle = eachBarCode.url!!.title.toString()
                         val url = eachBarCode.url!!.url.toString()
+                        // creating a new scanItem to post in the LiveData
+                        val newScanItem = ScanHistoryItem(DateTimeHelper.getCurrentDate(), urlTitle, url, "Website",0)
+                        if(!isFromAnalyzer) liveDataImageCaptureResult.postValue(MLKitResponses.SuccessResponse(newScanItem))
+                        else liveDataAnalyzerScanResult.postValue(MLKitResponses.SuccessResponse(newScanItem))
 
-                        liveDataAnalyzerScanResult.postValue(
-                            ScanHistoryItem(
-                                "",
-                                urlTitle,
-                                url,
-                                "Web"
-                            )
-                        )
+                        insertNewScanToDB(newScanItem)
                     }
                     Barcode.TYPE_TEXT -> {
-                        liveDataAnalyzerScanResult.postValue(ScanHistoryItem("", "", "", ""))
+                        val newScanItem = ScanHistoryItem(DateTimeHelper.getCurrentDate(), "", "", "Text",0)
+                        if(!isFromAnalyzer) liveDataImageCaptureResult.postValue(MLKitResponses.SuccessResponse(newScanItem))
+                        else liveDataAnalyzerScanResult.postValue(MLKitResponses.SuccessResponse(newScanItem))
+
+                        insertNewScanToDB(newScanItem)
                     }
                 }
             }
         }
+
+        if (!isFromAnalyzer) {
+            processImageTask.addOnFailureListener {
+                liveDataImageCaptureResult.postValue(
+                    MLKitResponses.ErrorResponse(
+                        it.localizedMessage ?: "Some Error Occurred"
+                    )
+                )
+            }
+        }
     }
 
-    fun insertNewScanToDB(givenScan: ScanHistoryItem) {
+    private fun insertNewScanToDB(givenScan: ScanHistoryItem) {
         viewModelScope.launch {
             databaseInstance?.getScanHistoryDAO()?.insertNewScan(givenScan)
         }

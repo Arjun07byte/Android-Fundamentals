@@ -27,6 +27,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.appify.scaneye.MainViewModel
 import com.appify.scaneye.R
+import com.appify.scaneye.dataModels.MLKitResponses
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors.newSingleThreadExecutor
@@ -200,8 +201,9 @@ class MainFragment : Fragment() {
         val bottomSheetButton3: Button = bottomSheetLayout.findViewById(R.id.button_scanResultbt3)
         val bottomSheetIcon: ImageView = bottomSheetLayout.findViewById(R.id.imgView_scanResultIcon)
 
-        myMainViewModel.liveDataAnalyzerScanResult.observe(viewLifecycleOwner) { scannedItem ->
-            if (scannedItem != null) {
+        myMainViewModel.liveDataAnalyzerScanResult.observe(viewLifecycleOwner) {
+            if (it is MLKitResponses.SuccessResponse) {
+                val scannedItem = it.scanHistoryItem!!
                 bottomSheetTitle.text = scannedItem.historyItemTitle; bottomSheetSubtitle.text =
                     scannedItem.historyItemDesc
 
@@ -215,7 +217,7 @@ class MainFragment : Fragment() {
                     startActivity(Intent.createChooser(myIntent, "Choose to share"))
                 }
 
-                if (scannedItem.historyItemType != "Web") {
+                if (scannedItem.historyItemType != "Website") {
                     bottomSheetButton2.visibility = View.GONE; bottomSheetButton1.text =
                         "Copy Password"
                     bottomSheetIcon.setImageResource(R.drawable.ic_wifi)

@@ -7,6 +7,7 @@
     <string name="history_heading">History</string>
     <string name="back_button_cd">Back Button</string>
     <string name="visited_at_text">Visited at: %1s</string>
+    <string name="visited_at_text_with_line_br">Visited at\n %1s</string>
     <string name="qr_share_cd">QR Share</string>
     <string name="captured_image_view_cd">Captured Image View</string>
     <string name="history_button_cd">History Button</string>
@@ -15,5 +16,7 @@
     <string name="copy_text">Copy</string>
     <string name="share_text">Share</string>
     <string name="scan_result_icon_cd">Scan Result Icon</string>
+    <string name="website_heading">Website</string>
+    <string name="wifi_heading">Wifi</string>
 
 </resources>

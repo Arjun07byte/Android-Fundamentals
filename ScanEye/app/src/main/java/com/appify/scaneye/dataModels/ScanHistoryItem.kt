@@ -12,4 +12,5 @@ data class ScanHistoryItem(
     val historyItemTitle: String,
     val historyItemDesc: String,
     val historyItemType: String,
+    var scanDateKey: Int
 )

@@ -105,7 +105,7 @@ class DisplayImageFragment : Fragment() {
                     startActivity(Intent.createChooser(myIntent, "Choose to share"))
                 }
 
-                if (scannedItem.historyItemType != "Web") {
+                if (scannedItem.historyItemType != "Website") {
                     bottomSheetButton2.visibility = View.GONE; bottomSheetButton1.text =
                         "Copy Password"
                     bottomSheetIcon.setImageResource(R.drawable.ic_wifi)
