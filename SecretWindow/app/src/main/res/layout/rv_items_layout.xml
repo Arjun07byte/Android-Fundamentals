@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="15dp"
-    android:background="@drawable/bg_secret_items">
+    android:background="@drawable/bg_secret_items"
+    android:layout_marginBottom="16dp">
 
     <TextView
         android:id="@+id/tv_itemSource"
