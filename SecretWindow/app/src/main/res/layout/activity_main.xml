@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:id="@+id/mainLayout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/secret_window_heading"
+        android:textColor="@color/black100"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:fontFamily="@font/montserrat_regular"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"/>
+
+    <ImageButton
+        android:contentDescription="@string/help_button_cd"
+        android:id="@+id/button_questionMark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_question"
+        android:background="@color/white100"
+        android:layout_marginTop="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="24dp"/>
+
+    <TextView
+        android:id="@+id/tv_EmptySecrets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/brandBlue"
+        android:text="@string/no_secrets_text"
+        android:textAlignment="center"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
+        android:id="@+id/rv_mainActivity"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="30dp"
+        android:layout_below="@id/button_questionMark"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"/>
+
+    <TextView
+        android:id="@+id/button_clearWindow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="@string/clear_my_window_text"
+        android:textAlignment="center"
+        android:padding="14dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/white100"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/bg_clear_button"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

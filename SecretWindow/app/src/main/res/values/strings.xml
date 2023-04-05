@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Secret Window</string>
+    <string name="service_name">com.appify.secretwindow.SecretWindowService</string>
+    <string name="secret_window_heading">SECRET\nWINDOW</string>
+    <string name="clear_my_window_text">CLEAR MY WINDOW</string>
+    <string name="no_secrets_text">No Secrets to show\nEnable Accessibility from\nabove button\n\n\nAnd let your secrets get stored</string>
+    <string name="help_button_cd">Help Button</string>
+    <string name="last_updated_text">Last Updated : %1s</string>
+    <string name="enable_accessibility_text">Please Enable Accessibility Setting</string>
+    <string name="enabled_accessibility_text">Secret Window is capturing your secret.Enjoy</string>
+    <string name="go_to_settings_text">GO TO SETTINGS</string>
+    <string name="exit_text">Exit</string>
+</resources>

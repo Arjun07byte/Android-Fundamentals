@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.SecretWindow" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/white100</item>
+        <item name="colorPrimaryVariant">@color/white100</item>
+        <item name="colorOnPrimary">@color/black100</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/black100</item>
+        <item name="colorSecondaryVariant">@color/black100</item>
+        <item name="colorOnSecondary">@color/black50</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/white100</item>
+        <!-- Customize your theme here. -->
+        <item name="android:navigationBarColor">@color/white100</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

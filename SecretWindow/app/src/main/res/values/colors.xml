@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black100">#FF000000</color>
+    <color name="white100">#FFFFFFFF</color>
+    <color name="black50">#80000000</color>
+    <color name="itemBg">#E5E5E5</color>
+    <color name="brandBlue">#0500FF</color>
+</resources>
