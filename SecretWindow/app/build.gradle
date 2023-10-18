@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.appify.secretwindow'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.appify.secretwindow"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -48,4 +48,6 @@ dependencies {
     kapt "androidx.room:room-compiler:2.6.0-alpha01"
 
     implementation "androidx.room:room-ktx:2.6.0-alpha01"
+
+    implementation("androidx.webkit:webkit:1.8.0")
 }

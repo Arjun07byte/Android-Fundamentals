@@ -1,4 +1,4 @@
-package com.appify.secretwindow
+package com.appify.secretwindow.activities
 
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.app.Dialog
@@ -6,17 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.view.View
 import android.view.accessibility.AccessibilityManager
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.appify.secretwindow.localDatabase.SecretItemsDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.appify.secretwindow.R
 
 class MainActivity : AppCompatActivity() {
     private lateinit var dialogBuilder: Dialog
@@ -27,35 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val databaseInst = SecretItemsDatabase(this)
-        val tvEmptySecrets: TextView = findViewById(R.id.tv_EmptySecrets)
-        val buttonClearWindow: TextView = findViewById(R.id.button_clearWindow)
-        val buttonQuestionMark: ImageButton = findViewById(R.id.button_questionMark)
-        val rvSecret: RecyclerView = findViewById(R.id.rv_mainActivity)
-        val rvAdapter = SecretsAdapter()
         inflateDialogBox()
-
-        buttonClearWindow.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                databaseInst.getDatabaseDAO().clearAllSecrets()
-            }
-        }
-        buttonQuestionMark.setOnClickListener { showDialogBox() }
-        rvSecret.apply {
-            adapter = rvAdapter; layoutManager = LinearLayoutManager(this@MainActivity)
-        }
-        databaseInst.getDatabaseDAO().getAllSecrets().observe(this) {
-            if (it.isNotEmpty()) {
-                tvEmptySecrets.visibility = View.GONE
-                rvSecret.visibility = View.VISIBLE
-
-                rvAdapter.submitListToDiffer(it)
-            } else {
-                tvEmptySecrets.visibility = View.VISIBLE
-                rvSecret.visibility = View.GONE
-            }
-        }
-
         if (!isSecretWindowEnabled(this)) {
             showDialogBox()
         }
@@ -66,6 +31,7 @@ class MainActivity : AppCompatActivity() {
             tvDialog.text = getString(R.string.enable_accessibility_text)
             buttonDialog.text = getString(R.string.go_to_settings_text)
             buttonDialog.setOnClickListener {
+                dialogBuilder.dismiss()
                 startActivity(
                     Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
                 )

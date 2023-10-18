@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Secret Window</string>
+    <string name="app_name">BlueLock</string>
     <string name="service_name">com.appify.secretwindow.SecretWindowService</string>
     <string name="secret_window_heading">SECRET\nWINDOW</string>
     <string name="clear_my_window_text">CLEAR MY WINDOW</string>
