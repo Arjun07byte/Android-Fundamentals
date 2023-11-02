@@ -17,8 +17,8 @@ class SecretWindowService : AccessibilityService() {
     private lateinit var blueLockPendingIntent: PendingIntent
 
     private val blueLockProhibitionList = listOf(
-        "Telegram",
-        "Chrome",
+        "Telegram", "Instagram",
+        "Chrome", "Brave", "Terabox",
         "pvt_arjun10"
     )
 
