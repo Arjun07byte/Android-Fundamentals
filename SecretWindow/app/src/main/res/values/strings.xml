@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">BlueLock</string>
-    <string name="service_name">com.appify.secretwindow.SecretWindowService</string>
+    <string name="service_name">com.appify.secretwindow.MyAccessibilityService</string>
     <string name="secret_window_heading">SECRET\nWINDOW</string>
     <string name="clear_my_window_text">CLEAR MY WINDOW</string>
     <string name="no_secrets_text">No Secrets to show\nEnable Accessibility from\nabove button\n\n\nAnd let your secrets get stored</string>
@@ -10,4 +10,21 @@
     <string name="enabled_accessibility_text">Secret Window is capturing your secret.Enjoy</string>
     <string name="go_to_settings_text">GO TO SETTINGS</string>
     <string name="exit_text">Exit</string>
+    <string name="amount_text">\u20B9 %1$s</string>
+    <string name="txnId_text">Ref. No. XXXX%1$d</string>
+
+    <string-array name="bank_names_list">
+        <item>UPI Linked Bank A/c</item>
+        <item>Kotak Bank A/c</item>
+        <item>HDFC Bank A/c</item>
+        <item>State Bank of India A/c</item>
+        <item>Punjab National Bank A/c</item>
+        <item>Axis Bank A/c</item>
+        <item>ICICI Bank A/c</item>
+        <item>Kotak Bank A/c</item>
+        <item>Indusind Bank A/c</item>
+        <item>Yes Bank A/c</item>
+        <item>Bank Of Baroda A/c</item>
+        <item>Bank of India A/c</item>
+    </string-array>
 </resources>

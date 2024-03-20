@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.TextView
 import com.appify.secretwindow.R
 import java.io.File
 
@@ -21,7 +22,7 @@ class BlueLockActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_blue_lock)
 
-        val myUri = Uri.parse(
+        /*val myUri = Uri.parse(
             ContentResolver.SCHEME_ANDROID_RESOURCE
                     + File.pathSeparator + File.separator + File.separator
                     + this.packageName + File.separator
@@ -37,6 +38,9 @@ class BlueLockActivity : AppCompatActivity() {
             setDataSource(applicationContext, myUri)
             prepare()
             start()
-        }
+        }*/
+
+        findViewById<TextView>(R.id.nameText).text = intent.getStringExtra("payee_name")
+        findViewById<TextView>(R.id.amountText).text = intent.getDoubleExtra("pay_amount",0.0).toString()
     }
 }

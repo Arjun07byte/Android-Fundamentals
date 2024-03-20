@@ -11,8 +11,7 @@
         <item name="colorOnSecondary">@color/black50</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/white100</item>
-        <!-- Customize your theme here. -->
-        <item name="android:navigationBarColor">@color/white100</item>
         <item name="android:windowLightStatusBar">true</item>
+        <!-- Customize your theme here. -->
     </style>
 </resources>

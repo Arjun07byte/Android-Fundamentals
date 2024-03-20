@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/logo_paytm"
+                android:layout_alignBottom="@id/logo_paytm"
+                android:layout_marginStart="16dp"
+                android:background="@color/white100"
+                android:src="@drawable/ic_back_button" />
+
+            <ImageView
+                android:id="@+id/logo_paytm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/logo_paytm" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/logo_paytm"
+                android:layout_alignBottom="@id/logo_paytm"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="Help"
+                android:textAlignment="center"
+                android:textColor="#00B9F1"
+                android:textSize="16sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layout_paymentDetails"
+                android:layout_width="match_parent"
+                android:layout_height="386dp"
+                android:layout_below="@id/logo_paytm"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="30dp"
+                android:clickable="false"
+                android:focusable="false"
+                app:cardBackgroundColor="#DEF6FF"
+                app:cardCornerRadius="16dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:id="@+id/layout_payeeInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="24dp">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btn_payeeName"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/bg_payee_name"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="NY"
+                            android:textColor="@color/white100"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:id="@+id/txtView_payeeName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_toEndOf="@id/btn_payeeName"
+                            android:fontFamily="@font/roboto_bold"
+                            android:textColor="@color/black100"
+                            android:textSize="20sp"
+                            tools:text="Neeraj Yadav" />
+
+                        <TextView
+                            android:id="@+id/txtView_payeeAccName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/txtView_payeeName"
+                            android:layout_alignStart="@id/txtView_payeeName"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Kotak Bank A/c"
+                            android:textColor="@color/black100"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/layout_payeeInfo"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="24dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txtView_payAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:gravity="top"
+                            android:textAlignment="gravity"
+                            android:textColor="@color/black100"
+                            android:textSize="32sp" />
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/animView"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="8dp"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/green_tick_anim" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtView_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/layout_amount"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="32dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/black100"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="08 Feb, 02:24 PM" />
+
+                    <TextView
+                        android:id="@+id/txtView_txnId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txtView_time"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:drawablePadding="8sp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="#00B9F1"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_arrow"
+                        tools:text="Ref. No. XX 9743" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/layout_poweredBy"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/check_balance" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:src="@drawable/share" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/pay_again" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_poweredBy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/view_bottom"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="18dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="4dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:gravity="center_vertical|end"
+                            android:text="Powered\nby"
+                            android:textColor="#222222"
+                            android:textSize="8sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="8sp"
+                            android:src="@drawable/logo_paytm_bw" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:gravity="center_vertical|start"
+                            android:text="Payments\nBank"
+                            android:textColor="#222222"
+                            android:textSize="8sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="3dp"
+                        android:background="#002B6F"
+                        android:elevation="4dp" />
+
+                    <View
+                        android:id="@+id/view_bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="#04B9F3" />
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_paymentDetails"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/layout_deals"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/deals" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8sp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bottom_offer1" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8sp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bottom_offer2" />
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/choice_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Spinner
+            android:id="@+id/userBankAccountSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDoneChoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Done" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="340dp"
+        android:layout_height="66dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/bottom_menu" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

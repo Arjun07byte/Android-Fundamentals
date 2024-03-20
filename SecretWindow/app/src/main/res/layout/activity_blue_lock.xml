@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:background="@drawable/wallpaper"/>
-</FrameLayout>
+    xmlns:tools="http://schemas.android.com/tools"    android:layout_height="match_parent">
+    <TextView
+        android:layout_centerInParent="true"
+        android:id="@+id/nameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Some Name"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/amountText"
+        android:textSize="20sp"
+        tools:text="25.00"
+        android:layout_alignStart="@id/nameText"
+        android:layout_below="@id/nameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
